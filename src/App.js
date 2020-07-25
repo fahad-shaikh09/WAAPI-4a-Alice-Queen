@@ -2,7 +2,7 @@ import React,{ useRef, useEffect } from 'react';
 
 import useWebAnimations from "@wellyshen/use-web-animations";
 import './App.css';
-import alice from "./alice.gif"
+import aliceUnscreen from "./aliceUnscreen.gif"
 import knight from "./knight.png"
 import palm_small from "./palm_small.png"
 import rook from "./rook.png"
@@ -15,36 +15,56 @@ import bg_sky from "./bg_sky.jpg"
 import bg_earth from "./bg_earth.jpg"
 
 function App() {
+  let aliceSprite = useRef(null);
+  let knightRef = useRef(null)
+
   const { ref, playState, getAnimation } = useWebAnimations({
     keyframes: [
-      {transform: "translate(100%,0)"},
+      {transform: "translate(400%,0)"},
       {transform: "translate(0%,0)"}
-
+      
     ],
     timing: {
-      duration: 3000, // Run for 1000ms
+      duration: 6000, // Run for 1000ms
       iterations: Infinity, // Repeat once
       easing: "ease-in-out", // Use a fancy timing function
     },
     
   });
   
-  let knightRef = useRef(null)
   useEffect( () => { 
-   knightRef.current.animate([
-    { transform: 'translateX(100%)' },
-    {transform: 'translateX(0%)' }
-  ],{
+    knightRef.current.animate([
+      { transform: 'translateX(100%)' },
+      {transform: 'translateX(0%)' }
+    ],{
       duration: 10000,
       iterations: Infinity
-  })
-},[])
+    });
 
+    // const spriteFrames = [
+    //   { transform: "translateY(0)" },
+    //   { transform: "translateY(-100%)" }
+    // ]
 
+    // aliceSprite.current.animate(spriteFrames, {
+    //   easing: 'steps(7,end)',
+    //   direction: 'reverse',
+    //   duration: 10000,
+    //   playbackRate: 1,
+    //   iterations: Infinity,
+    // });
+
+   
+
+  },[])
+  ///////////////////////////////////////////////////////////
+  
+    // Alice
+      
+  
   return (
     <div>
            <div >
-               <img src={bg_sky} alt="bg_sky" id="main"/> 
                <img src={bg_sky} alt="bg_sky" id="main"/> 
                <img src={bg_sky} alt="bg_sky" id="main"/> 
                <img src={bg_sky} alt="bg_sky" id="main"/> 
@@ -54,7 +74,7 @@ function App() {
             
             <div>
               <img src={bg_earth} alt="bg_earth" id="earth"/> 
-              <img src={alice} alt="alice" id="alice"/>  
+              <img  ref={aliceSprite} src={aliceUnscreen} alt="alice" id="alice" />  
             </div>
 
 
@@ -74,9 +94,12 @@ function App() {
             <img src={rook_small} alt="rook_small" id="rook_small" /> 
             <img src={palm_small} alt="palm_small" id="palm_small" /> 
            </div>
-          <hr/> 
-           <button onClick={() =>{getAnimation().pause()}}>Pause</button> <br></br> <br></br>
-           <button onClick={() =>{getAnimation().play()}}>Play</button> <br></br>
+          
+           <div id="buttons">
+            <p>current Play State {playState}</p>
+            <button onClick={() =>{getAnimation().pause()}}>Pause</button> <br></br> <br></br>
+            <button onClick={() =>{getAnimation().play()}}>Play</button> <br></br>
+           </div>
     </div>
   );
 }
